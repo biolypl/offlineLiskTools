@@ -2,7 +2,7 @@
 - Tools for offline creating and signing type 0 and type 3 Lisk transactions. 
 - Tool for online sending the offline created transactions.
 
-Just download and extract the .rar files. Since the tools are just html site with some javascript code, you should be able to run it on multiple platforms. I tested it on Windows and Linux Ubuntu.
+Just download and extract the .rar files. Since the tools are just html sites with some javascript code, you should be able to run it on multiple platforms. I tested it on Windows and Linux Ubuntu.
 
 # offlineCreateStdTransaction:
 - this should be used on an offline pc which is not connected to the internet
