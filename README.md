@@ -38,7 +38,7 @@ Just download and extract the .rar files. Since the tools are just html sites wi
   - Please remenber that when you use the online tool. You have to scan twice!!
 - follow the instructions below for: onlineSendTransaction
 
-# onlineSendTool
+# onlineSendTransaction
 - this should be used on an online pc which is not connected to the internet
 - since the signed transaction does only includes encrypted data, it is safe to use it on an online pc 
 - click the blue "Start webcam" button and select the webcam that you want to use
