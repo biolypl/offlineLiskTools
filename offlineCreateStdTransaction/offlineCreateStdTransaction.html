@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8"> 
+	<title>Offline version of Lisk standard transaction generator</title>
+	<link rel="stylesheet" href="myliskstyle.css">
+	<script src="lisk-js.js"></script>
+	<script type="text/javascript" src="qrcode.js"></script>	
+</head>
+<body>
+<h1>Instruction to create a standard transaction (Type 0 / send LSK)</h1>
+<h2>1. Insert correct passphrase's, else the transaction will not be signed correctly</h2>
+<h2>2. For every transaction fee is 0.1 LSK. The fee will be taken from account balance, NOT FROM AMOUNT which you insert!</br> Please remember about it when you plan to send specific amount</h2>
+<h2>3. This tool is only for creating and signing transaction. To send your LSK use the onlineTool.</h2>
+	<h2>4. Scan the QRCode at the bottom of this page with your online PC and send the transaction.</h2>
+<form id="frm" name="frm">
+  <input type="text" name="pass1" id="pass1" placeholder="Your passphrase" required><br>
+  <input type="text" name="pass2" id="pass2" placeholder="Your second passphrase (leave blank if you haven't)"><br>
+  <input type="number" name="amount" id ="amount" placeholder="Amount" step="0.1" required><br>
+  <input type="text" name="rec" id="rec" placeholder="Recipient address" required><br>
+  <input type="button" onclick="get()" value="Generate transaction" class="btn">
+</form>
+<p><strong>Transaction: </strong><span id="transaction" /></p>
+<div id="qrcode" style="width:500px; height:500px; margin-top:15px;"></div>
+<script>
+	var receiver, amount;
+	
+	function get(){
+		var qrcode = new QRCode(document.getElementById("qrcode"), {
+			width : 500,
+			height : 500
+		});
+		var pass = document.forms['frm'].elements['pass1'].value;
+		pass = pass.trim();
+		var second = document.forms['frm'].elements['pass2'].value;
+		second = second.trim();
+		var amnt = document.forms['frm'].elements['amount'].value;
+		receiver = document.forms['frm'].elements['rec'].value;
+		receiver = receiver.trim();
+		amnt = Number(amnt);
+		amnt = amnt.toFixed(8);
+		amount  = amnt * Math.pow(10, 8); // 100000000000
+		if(amount.toString().indexOf('.')!==-1){
+			amount = amount.toPrecision(amount.toString().indexOf('.'));
+		}
+		amount = Number(amount);
+		var transaction = lisk.transaction.createTransaction(receiver, amount, pass, second);
+		document.getElementById("transaction").innerHTML = JSON.stringify(transaction);
+
+		function makeCode () {		
+			var elText = JSON.stringify(transaction);
+			
+			if (!elText) {
+				alert("Transaction was empty");
+				elText.focus();
+				return;
+			}
+			qrcode.makeCode(elText);
+		}
+		makeCode();
+	}
+</script>
+</body>
