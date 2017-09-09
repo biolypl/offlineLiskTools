@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Online version of Lisk transaction generator (SEND)</title>
+	<link rel="stylesheet" href="myliskstyle.css">
+    <meta content="UTF-8" charset="utf-8">
+    <script src="jquery-3.2.1.js"></script>
+	<script type="text/javascript" src="instascan.min.js"></script>
+  </head>
+  <body>
+	<h1>Insert correct data, otherwise the transaction will not be send!</h1>
+	<form id="frm" name="frm">
+	  <video style="display:block; margin: 0 auto;" id="preview"></video>
+	  <input type="button" onclick="startCam()" value="Start webcam" class="btn">
+	  <textarea name="transaction" id ="transaction" placeholder="Transaction" required></textarea><br>
+	   <select name="netSelect" size="1">
+			<option>Please select net</option>
+			<option>Mainnet</option>
+			<option>Testnet</option>
+	   </select>
+	  <input type="button" onclick="send()" value="Send transaction" class="btn">
+	</form>
+	<p id="mess">
+	<script>	
+	function beepOK(){
+		var snd = new Audio("success.wav");
+		snd.play();
+	}
+
+	function startCam(){
+		let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+		scanner.addListener('scan', function (content) {
+			console.log(content);
+			document.forms['frm'].elements['transaction'].value = document.forms['frm'].elements['transaction'].value + content;
+			beepOK();
+		});
+		Instascan.Camera.getCameras().then(function (cameras) {
+			if (cameras.length > 0) {
+				scanner.start(cameras[0]);
+			} else {
+				console.error('No cameras found.');
+			}
+		}).catch(function (e) {
+			console.error(e);
+		});
+	}
+	
+	function send(){
+		var transaction = JSON.parse(document.forms['frm'].elements['transaction'].value);
+		var select = document.forms['frm'].elements['netSelect'];
+		var Net = select.selectedIndex;
+		var sendSuccess = false;
+		var url = 'https://testnet.lisk.io/peer/transactions'
+		var nethash = 'da3ed6a45429278bac2666961289ca17ad86595d33b31037615d4b8e8f158bba';
+		if(Net == 0){
+			alert("Please specify Net")
+			return;
+		}else if(Net == 1){
+			url = 'https://node01.lisk.io/peer/transactions'
+			nethash = 'ed14889723f24ecc54871d058d98ce91ff2f973192075c0155ba2b7b70ad2511';
+		} else if(Net == 2){
+			url = 'https://testnet.lisk.io/peer/transactions'
+			nethash = 'da3ed6a45429278bac2666961289ca17ad86595d33b31037615d4b8e8f158bba';
+		}
+		console.log("entered Send");
+		var success = function(data) {
+		  console.log(data);
+		  if(data.success!=false){
+			  document.getElementById("mess").innerHTML = "Your transaction was sent";
+		  }else{
+			  document.getElementById("mess").innerHTML = "ERROR:    " + data.message;
+		  }
+		  sendSuccess = true;
+		};
+		$.ajax({	
+		  url: url,
+		  data: JSON.stringify({ transaction: transaction }),
+		  dataType: 'json',
+		  method: 'POST',
+		  headers: {
+			'Content-Type': 'application/json',
+			'os': 'linux4.4.0-78-generic',
+			'version': '0.9.8',
+			'port': 1,
+			'nethash': nethash
+		  },
+		  success: success
+		});
+		if(!sendSuccess){
+			document.getElementById("mess").innerHTML = "If this message doesn't disappear after a couple of seconds, the transaction completed with an unknown error.";
+		}
+	}
+    </script>
+  </body>
+</html>
