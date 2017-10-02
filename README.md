@@ -23,7 +23,7 @@ Just download and extract the .rar files. Since the tools are just html sites wi
 - follow the instructions below for: onlineSendTransaction
 
 # offlineCreateSignedVotingTransaction:
-- this should be used on an offline pc which is connected to the internet
+- this should be used on an offline pc which is not connected to the internet
 - copy or type your passphrase into the first input box
 - copy or type your second passphrase into the second input box (or leave blank if you don't have one)
 - copy an array with public Keys of the delegates that you want to vote (or unvote) into the third input box
@@ -39,7 +39,7 @@ Just download and extract the .rar files. Since the tools are just html sites wi
 - follow the instructions below for: onlineSendTransaction
 
 # onlineSendTransaction
-- this should be used on an online pc which is not connected to the internet
+- this should be used on an online pc which is connected to the internet
 - since the signed transaction does only includes encrypted data, it is safe to use it on an online pc 
 - click the blue "Start webcam" button and select the webcam that you want to use
 - point the webcam to the screen of your offline pc and scan the QR-Code
