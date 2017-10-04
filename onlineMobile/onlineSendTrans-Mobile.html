@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta charset="utf-8">
+    <title>JQuery Mobile AJAX</title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.css" />
+    <script src="http://code.jquery.com/jquery-1.4.4.js"></script>
+    <script src="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.js"></script>
+</head>
+ 
+<body>
+    <div data-role="page" id="indexPage">
+        <div data-role="header">
+            <h1>Send ANY Lisk Transaction Mobile</h1>
+        </div>
+        <div data-role="content">
+            <div data-role="fieldcontain">
+                <label for="theName">Please enter your transaction:</label>
+                <input type="text" id="theName" name="theName" value="" />
+				<select id="netSelect" size="1">
+					<option value="0">Please select net</option>
+					<option value="1">Mainnet</option>
+					<option value="2">Testnet</option>
+				</select>
+            </div>
+            <input id="callAjax" type="button" value="Send Transaction" />
+            <div id="resultLog"></div>
+        </div>
+ 
+        <div data-role="footer">
+            <h1>by lisksnake</h1>
+        </div>
+    </div>
+	
+    <script>
+        $(function() {
+ 
+            $("#callAjax").click(function() {
+			
+				var obj1 = document.getElementById("resultLog");
+				obj1.value = "";
+				
+				var obj2 = document.getElementById("netSelect");
+				var strNetIndex = obj2.selectedIndex;
+				
+				var url = 'https://testnet.lisk.io/peer/transactions'
+				var nethash = 'da3ed6a45429278bac2666961289ca17ad86595d33b31037615d4b8e8f158bba';				
+				if(strNetIndex == 0){
+					alert("Please specify Net")
+					return;
+				}else if(strNetIndex == 1){
+					url = 'https://node01.lisk.io/peer/transactions'
+					nethash = 'ed14889723f24ecc54871d058d98ce91ff2f973192075c0155ba2b7b70ad2511';
+				} else if(strNetIndex == 2){
+					url = 'https://testnet.lisk.io/peer/transactions'
+					nethash = 'da3ed6a45429278bac2666961289ca17ad86595d33b31037615d4b8e8f158bba';
+				}				
+				
+                var theName = $.trim($("#theName").val());
+				theTransaction = JSON.parse(theName);
+				//alert(JSON.stringify({transaction: theTransaction }));
+                if(theName.length > 0)
+                {
+                    $.ajax({
+						beforeSend: function(xhrObj){
+							xhrObj.setRequestHeader("os","linux4.4.0-78-generic");
+							xhrObj.setRequestHeader("version","0.9.8");
+							xhrObj.setRequestHeader("port", 1);
+							xhrObj.setRequestHeader("nethash",nethash);							
+						},
+                      type: "POST",
+                      url: url,
+					  data: JSON.stringify({ transaction: theTransaction }),
+                      cache: false,
+                      dataType: "json",
+					  contentType: "application/json",
+
+                      success: onSuccess
+                    });
+                }
+            });
+			
+            $("#resultLog").ajaxError(function(event, request, settings, exception) {
+              $("#resultLog").html("Error Calling: " + settings.url + "<br />HTTP Code: " + request.status);
+            });
+ 
+            function onSuccess(data)
+            {
+                $("#resultLog").html("Result: " + JSON.stringify(data));
+				var obj3 = document.getElementById("theName");
+				obj3.value = "";
+            }
+        });
+    </script>
+</body>
+</html>
