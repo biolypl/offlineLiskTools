@@ -15,11 +15,16 @@
 <form id="frm" name="frm">
   <input type="text" name="pass1" id="pass1" placeholder="Your passphrase" required><br>
   <input type="text" name="pass2" id="pass2" placeholder="Your second passphrase (leave blank if you haven't)"><br>
-  <input type="number" name="amount" id ="amount" placeholder="Amount" step="0.1" required><br>
+  
+  <input type="text" name="amount" id ="amount" placeholder="Amount" required><br>
+  
+  
   <input type="text" name="rec" id="rec" placeholder="Recipient address" required><br>
   <input type="button" onclick="get()" value="Generate transaction" class="btn">
+  <label id="transLabel"><strong>Transaction: </strong></label>
+  <output name="transaction" id="transaction"></output>
 </form>
-<p><strong>Transaction: </strong><span id="transaction" /></p>
+<input type="button" onclick="copyClipboard()" value="Copy transaction to clipboard" class="btn">
 <div id="qrcode" style="width:500px; height:500px; margin-top:15px;"></div>
 <script>
 	var receiver, amount;
@@ -36,7 +41,18 @@
 		var amnt = document.forms['frm'].elements['amount'].value;
 		receiver = document.forms['frm'].elements['rec'].value;
 		receiver = receiver.trim();
+		
+		if (isNaN(Number(amnt)))
+			amnt = amnt.replace(',','.');
+		if (isNaN(Number(amnt))){
+			alert('Please specify a valid amount!');
+			return;
+		}
+
 		amnt = Number(amnt);
+		if (confirm("You would like to send "+ amnt +" LSK ?") == false) {
+			return;
+		}
 		amnt = amnt.toFixed(8);
 		amount  = amnt * Math.pow(10, 8); // 100000000000
 		if(amount.toString().indexOf('.')!==-1){
@@ -57,6 +73,16 @@
 			qrcode.makeCode(elText);
 		}
 		makeCode();
+	}
+	
+	function copyClipboard(){
+		var dummy = document.createElement("input");
+		document.body.appendChild(dummy);
+		dummy.setAttribute("id", "trans");
+		dummy.setAttribute('value', document.forms['frm'].elements['transaction'].value);
+		dummy.select();
+		document.execCommand("copy");
+		document.body.removeChild(dummy);
 	}
 </script>
 </body>
