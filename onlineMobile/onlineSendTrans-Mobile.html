@@ -64,7 +64,7 @@
                     $.ajax({
 						beforeSend: function(xhrObj){
 							xhrObj.setRequestHeader("os","linux4.4.0-78-generic");
-							xhrObj.setRequestHeader("version","0.9.8");
+							xhrObj.setRequestHeader("version","0.9.9");
 							xhrObj.setRequestHeader("port", 1);
 							xhrObj.setRequestHeader("nethash",nethash);							
 						},
@@ -89,6 +89,7 @@
                 $("#resultLog").html("Result: " + JSON.stringify(data));
 				var obj3 = document.getElementById("theName");
 				obj3.value = "";
+				alert("Transaction successfully send ")
             }
         });
     </script>
