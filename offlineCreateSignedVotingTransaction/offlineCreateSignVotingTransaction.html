@@ -15,28 +15,36 @@
 	<h2>Note. Due to the high anount of data when you specify 33 delegates. The transactions is split into 2 QR-Codes. Please scan both</h2>
 	<h2>Note. One single QR-Code would be too complex and not be scanable with a standard usb-cam</h2>
 	<form id="frm" name="frm">
-	  <input type="text" name="pass1" id="pass1" placeholder="Your passphrase" required><br>
-	  <input type="text" name="pass2" id="pass2" placeholder="Your second passphrase (leave blank if you haven't)"><br>
+	  <input type="password" name="pass1" id="pass1" placeholder="Your passphrase" required>
+	  <label><input type="checkbox" onclick="togglePassword(1)" name="chkPass1" id="chkPass1" value="show pw" class="chk"></label><br>
+	  <input type="password" name="pass2" id="pass2" placeholder="Your second passphrase (leave blank if you haven't)">
+	  <label><input type="checkbox" onclick="togglePassword(2)" name="chkPass2" id="chkPass2" value="show pw" class="chk"></label><br>
 	  <input type="text" name="deleg" id="deleg" placeholder="Array of delagate PUBLIC KEYS" required><br>
 	  <p>Example: +473c354cdf627b82e9113e02a337486dd3afc5615eb71ffd311c5a0beda37b8c,+eaa049295d96618c51eb30deffe7fc2cc8bfc13190cb97f3b513dd060b000a46</p>
 	  <p>Do not add additional characters like "'[]{} .....  !!!!!</p><br><br>
-	  <input type="button" onclick="get()" value="Generate voting transaction" class="btn">
+	  <input type="button" onclick="get()" value="Generate voting transaction" class="btn"><br>
+	  <label id="transLabel"><strong>Transaction: </strong></label>
+	  <output name="transaction" id="transaction"></output>
 	</form>
-	<p><strong>Transaction: </strong><span id="transaction" /></p>
+	<input type="button" onclick="copyClipboard()" value="Copy transaction to clipboard" class="btn">
+	<input type="button" onclick="clearData()" value="Clear data and QR-Code" class="btn">
 	<div id="qrcode1" style="width:600px; height:600px; margin-top:15px;"></div><br><br>
 	<div id="qrcode2" style="width:600px; height:600px; margin-top:15px;"></div>
 	<script>
-
+		var qrcode1 = "";
+		var qrcode2 = "";
+		clearData();
+		
 		function get(){
 			var strQR ='';
 			var strQR1 ='';
 			var strQR2 ='';
-			var qrcode1 = new QRCode(document.getElementById("qrcode1"), {
+			qrcode1 = new QRCode(document.getElementById("qrcode1"), {
 				width : 600,
 				height : 600,
 				correctLevel : QRCode.CorrectLevel.L
 			});
-			var qrcode2 = new QRCode(document.getElementById("qrcode2"), {
+			qrcode2 = new QRCode(document.getElementById("qrcode2"), {
 				width : 600,
 				height : 600,
 				correctLevel : QRCode.CorrectLevel.L
@@ -75,5 +83,46 @@
 				makeCode(strQR,1);
 			}
 		}
+		
+		function copyClipboard(){
+			var dummy = document.createElement("input");
+			document.body.appendChild(dummy);
+			dummy.setAttribute("id", "trans");
+			dummy.setAttribute('value', document.forms['frm'].elements['transaction'].value);
+			dummy.select();
+			document.execCommand("copy");
+			document.body.removeChild(dummy);
+		}
+
+		function clearData(){
+			//document.forms['frm'].elements['pass1'].value = "";
+			//document.forms['frm'].elements['pass2'].value = "";
+			document.getElementById("chkPass1").checked = false;
+			document.getElementById("chkPass2").checked = false;			
+			document.getElementById("transaction").innerHTML = "";
+			document.getElementById("qrcode1").innerHTML = "";
+			document.getElementById("qrcode2").innerHTML = "";
+			document.forms['frm'].elements['deleg'].value = "";
+		}
+		
+		function togglePassword(num){
+			switch(num) {
+				case 1:
+					var chkPass = document.getElementById("chkPass1");
+					var strPass = document.getElementById("pass1");
+					break;
+				case 2:
+					var chkPass = document.getElementById("chkPass2");
+					var strPass = document.getElementById("pass2");
+					break;
+				default:
+					return;
+			} 
+			if (chkPass.checked == true){
+				strPass.setAttribute('type', 'text');
+			} else {
+				strPass.setAttribute('type', 'password');
+			}
+		}		
 	</script>
 </body>
