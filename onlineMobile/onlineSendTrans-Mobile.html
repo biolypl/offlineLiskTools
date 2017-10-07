@@ -89,7 +89,13 @@
                 $("#resultLog").html("Result: " + JSON.stringify(data));
 				var obj3 = document.getElementById("theName");
 				obj3.value = "";
-				alert("Transaction successfully send ")
+				
+				
+				if(data.success){
+					alert("Transaction successfully send");
+				} else {
+					alert("Transaction created error at Lisk-server!!!");
+				}
             }
         });
     </script>
