@@ -13,24 +13,29 @@
 <h2>3. This tool is only for creating and signing transaction. To send your LSK use the onlineTool.</h2>
 	<h2>4. Scan the QRCode at the bottom of this page with your online PC and send the transaction.</h2>
 <form id="frm" name="frm">
-  <input type="text" name="pass1" id="pass1" placeholder="Your passphrase" required><br>
-  <input type="text" name="pass2" id="pass2" placeholder="Your second passphrase (leave blank if you haven't)"><br>
+  <input type="password" name="pass1" id="pass1" placeholder="Your passphrase" required>
+  <label><input type="checkbox" onclick="togglePassword(1)" name="chkPass1" id="chkPass1" value="show pw" class="chk"></label><br>
+  <input type="password" name="pass2" id="pass2" placeholder="Your second passphrase (leave blank if you haven't)">
+  <label><input type="checkbox" onclick="togglePassword(2)" name="chkPass2" id="chkPass2" value="show pw" class="chk"></label><br>
   
   <input type="text" name="amount" id ="amount" placeholder="Amount" required><br>
   
   
   <input type="text" name="rec" id="rec" placeholder="Recipient address" required><br>
-  <input type="button" onclick="get()" value="Generate transaction" class="btn">
+  <input type="button" onclick="get()" value="Generate transaction" class="btn"><br>
   <label id="transLabel"><strong>Transaction: </strong></label>
   <output name="transaction" id="transaction"></output>
 </form>
 <input type="button" onclick="copyClipboard()" value="Copy transaction to clipboard" class="btn">
+<input type="button" onclick="clearData()" value="Clear data and QR-Code" class="btn">
 <div id="qrcode" style="width:500px; height:500px; margin-top:15px;"></div>
 <script>
 	var receiver, amount;
+	var qrcode = "";
+	clearData();
 	
 	function get(){
-		var qrcode = new QRCode(document.getElementById("qrcode"), {
+		qrcode = new QRCode(document.getElementById("qrcode"), {
 			width : 500,
 			height : 500
 		});
@@ -84,5 +89,36 @@
 		document.execCommand("copy");
 		document.body.removeChild(dummy);
 	}
+	
+	function clearData(){
+		//document.forms['frm'].elements['pass1'].value = "";
+		//document.forms['frm'].elements['pass2'].value = "";
+		document.getElementById("chkPass1").checked = false;
+		document.getElementById("chkPass2").checked = false;		
+		document.getElementById("transaction").innerHTML = "";
+		document.forms['frm'].elements['amount'].value = "";
+		document.getElementById("qrcode").innerHTML = "";
+		document.forms['frm'].elements['rec'].value = "";
+	}
+	
+	function togglePassword(num){
+		switch(num) {
+			case 1:
+				var chkPass = document.getElementById("chkPass1");
+				var strPass = document.getElementById("pass1");
+				break;
+			case 2:
+				var chkPass = document.getElementById("chkPass2");
+				var strPass = document.getElementById("pass2");
+				break;
+			default:
+				return;
+		} 
+		if (chkPass.checked == true){
+			strPass.setAttribute('type', 'text');
+		} else {
+			strPass.setAttribute('type', 'password');
+		}
+	}	
 </script>
 </body>
