@@ -1,11 +1,11 @@
-
+				
 body{
     background-color: LightGrey;
 }
 
 input{
 	border: solid;
-	width: 95%;
+	width: 90%;
 	padding: 10px 12px;
 	margin: 5px 0;
 	box-sizing: border-box;
@@ -21,9 +21,17 @@ input.btn {
     font-size: 16px;
 }
 
+input.chk {
+	border: solid;
+	width: 5%;
+	padding: 10px 12px;
+	margin: 5px 0;
+	box-sizing: border-box;
+}
+
 textarea{
 	border: solid;
-	width: 95%;
+	width: 90%;
 	height: 200px;
 	padding: 10px 12px;
 	margin: 5px 0;
@@ -32,7 +40,7 @@ textarea{
 
 select{
 	border: solid;
-	width: 95%;
+	width: 90%;
 	padding: 10px 12px;
 	margin: 5px 0;
 	box-sizing: border-box;
