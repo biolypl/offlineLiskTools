@@ -39,6 +39,9 @@ Just download and extract the .rar files. Since the tools are just html sites wi
 - follow the instructions below for: onlineSendTransaction
 
 # onlineSendTransaction
+YOU CAN FOLLOW THESE INSTRUCTIONS OR USE THE LISK ONLINE BROADCASTER ON YOU MOBILE PHONE WHICH IS MORE CONVENIENT:
+https://play.google.com/store/apps/details?id=lisksnake.liskonlinebroadcaster
+
 - this should be used on an online pc which is connected to the internet
 - since the signed transaction does only includes encrypted data, it is safe to use it on an online pc 
 - click the blue "Start webcam" button and select the webcam that you want to use
