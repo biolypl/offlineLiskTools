@@ -50,16 +50,16 @@
 		var select = document.forms['frm'].elements['netSelect'];
 		var Net = select.selectedIndex;
 		var sendSuccess = false;
-		var url = 'https://testnet.lisk.io/peer/transactions'
+		var url = 'https://testnet.lisk.io/api/transactions'
 		var nethash = 'da3ed6a45429278bac2666961289ca17ad86595d33b31037615d4b8e8f158bba';
 		if(Net == 0){
 			alert("Please specify Net")
 			return;
 		}else if(Net == 1){
-			url = 'https://node01.lisk.io/peer/transactions'
+			url = 'https://node01.lisk.io/api/transactions'
 			nethash = 'ed14889723f24ecc54871d058d98ce91ff2f973192075c0155ba2b7b70ad2511';
 		} else if(Net == 2){
-			url = 'https://testnet.lisk.io/peer/transactions'
+			url = 'https://testnet.lisk.io/api/transactions'
 			nethash = 'da3ed6a45429278bac2666961289ca17ad86595d33b31037615d4b8e8f158bba';
 		}
 		console.log("entered Send");
@@ -74,13 +74,13 @@
 		};
 		$.ajax({	
 		  url: url,
-		  data: JSON.stringify({ transaction: transaction }),
+		  data: JSON.stringify( transaction ),
 		  dataType: 'json',
 		  method: 'POST',
 		  headers: {
 			'Content-Type': 'application/json',
 			'os': 'linux4.4.0-78-generic',
-			'version': '0.9.8',
+			'version': '1.0.0',
 			'port': 1,
 			'nethash': nethash
 		  },
