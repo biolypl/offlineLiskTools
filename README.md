@@ -4,6 +4,9 @@
 
 Just download and extract the .rar files. Since the tools are just html sites with some javascript code, you should be able to run it on multiple platforms. I tested it on Windows and Linux Ubuntu.
 
+You can download the latest bundled lisk-elemnents from https://js.lisk.io/lisk-elements-1.1.3.min.js or build on your own https://github.com/LiskHQ/lisk-elements/ .
+
+
 # offlineCreateStdTransaction:
 - this should be used on an offline pc which is not connected to the internet
 - copy or type your passphrase into the first input box
